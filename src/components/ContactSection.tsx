@@ -14,7 +14,7 @@ const ContactSection = () => {
         <div className="max-w-xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-center items-center gap-8 mb-12">
             <a 
-              href="mailto:schjneidermendes@gmail.com" 
+              href="mailto:tecnologiastrinity@gmail.com" 
               className={cn(
                 "flex items-center gap-3 text-white hover:text-gray-300 transition-colors",
                 "border border-white/20 p-4 rounded-md w-full sm:w-auto justify-center",
@@ -22,7 +22,7 @@ const ContactSection = () => {
               )}
             >
               <Mail className="w-5 h-5" />
-              <span>schjneidermendes@gmail.com</span>
+              <span>tecnologiastrinity@gmail.com</span>
             </a>
             
             <a 

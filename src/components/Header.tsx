@@ -1,6 +1,7 @@
 
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,10 +28,12 @@ const Header = () => {
   };
 
   const navItems = [
-    { name: 'Início', href: '#home' },
-    { name: 'Projetos', href: '#projects' },
-    { name: 'Equipe', href: '#team' },
-    { name: 'Contato', href: '#contact' },
+    { name: 'Início', href: '/#home' },
+    { name: 'Sobre', href: '/#about' },
+    { name: 'Projetos', href: '/#projects' },
+    { name: 'Equipe', href: '/#team' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contato', href: '/#contact' },
   ];
 
   return (
@@ -41,23 +44,23 @@ const Header = () => {
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <a href="#home" className="flex items-center">
+        <Link to="/" className="flex items-center">
           <div className="font-bold text-xl tracking-tighter">
             <span className="inline-block transform -skew-x-6">TRINITY</span>
             <span className="text-gray-500 ml-1">TECNOLOGIAS</span>
           </div>
-        </a>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-10">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
               className="text-gray-800 hover:text-black link-underline text-sm font-medium"
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </nav>
 
@@ -91,14 +94,14 @@ const Header = () => {
       )}>
         <div className="px-6 flex flex-col space-y-4">
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.name}
-              href={item.href}
+              to={item.href}
               className="text-gray-800 hover:text-black py-2 text-sm font-medium"
               onClick={() => setIsMobileNavOpen(false)}
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </div>
       </div>

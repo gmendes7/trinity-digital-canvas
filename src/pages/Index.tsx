@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import HeroSection from '@/components/HeroSection';
 import ProjectsSection from '@/components/ProjectsSection';
 import TeamSection from '@/components/TeamSection';
+import AboutUsSection from '@/components/AboutUsSection';
+import BlogSection from '@/components/BlogSection';
 import ContactSection from '@/components/ContactSection';
 import TriangleBackground from '@/components/TriangleBackground';
 
@@ -18,8 +20,10 @@ const Index = () => {
       <Header />
       <TriangleBackground />
       <HeroSection />
+      <AboutUsSection />
       <ProjectsSection />
       <TeamSection />
+      <BlogSection />
       <ContactSection />
     </div>
   );
