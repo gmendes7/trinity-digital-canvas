@@ -1,3 +1,4 @@
+
 import { useEffect, useRef } from 'react';
 
 interface Triangle {
@@ -32,16 +33,18 @@ const TriangleBackground = () => {
 
     // Initialize triangles
     const initTriangles = () => {
-      const trianglesCount = Math.max(20, Math.floor(canvas.width * canvas.height / 25000));
+      // Increase triangle count for more mini triangles
+      const trianglesCount = Math.max(50, Math.floor(canvas.width * canvas.height / 15000));
       trianglesRef.current = [];
 
       for (let i = 0; i < trianglesCount; i++) {
         trianglesRef.current.push({
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          size: Math.random() * 30 + 15,
+          // Make triangles smaller
+          size: Math.random() * 20 + 5,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.1 + Math.random() * 0.3,
+          speed: 0.1 + Math.random() * 0.4,
           targetX: Math.random() * canvas.width,
           targetY: Math.random() * canvas.height
         });
@@ -63,9 +66,10 @@ const TriangleBackground = () => {
       ctx.closePath();
       
       const distanceToMouse = Math.hypot(x - mousePositionRef.current.x, y - mousePositionRef.current.y);
+      // Changed to white triangles with varying opacity
       const alpha = Math.min(1, Math.max(0.1, distanceToMouse / 300));
       
-      ctx.fillStyle = `rgba(0, 0, 0, ${alpha})`;
+      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
       ctx.fill();
       
       ctx.restore();
@@ -78,16 +82,16 @@ const TriangleBackground = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       // Update and draw triangles
-      trianglesRef.current.forEach((triangle, index) => {
+      trianglesRef.current.forEach((triangle) => {
         // Calculate distance to mouse
         const dx = mousePositionRef.current.x - triangle.x;
         const dy = mousePositionRef.current.y - triangle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Move away from mouse if close
-        if (distance < 200) {
+        // Increase repulsion radius and force for more pronounced movement
+        if (distance < 250) {
           const angle = Math.atan2(dy, dx);
-          const force = (200 - distance) / 10;
+          const force = (250 - distance) / 8;
           triangle.x -= Math.cos(angle) * force * triangle.speed;
           triangle.y -= Math.sin(angle) * force * triangle.speed;
           
