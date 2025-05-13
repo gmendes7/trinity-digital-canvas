@@ -1,5 +1,6 @@
 
 import { useEffect, useRef } from 'react';
+import { useTheme } from '@/context/ThemeProvider';
 
 interface Triangle {
   x: number;
@@ -16,6 +17,7 @@ const TriangleBackground = () => {
   const trianglesRef = useRef<Triangle[]>([]);
   const mousePositionRef = useRef({ x: 0, y: 0 });
   const animationFrameRef = useRef<number | null>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,7 +36,7 @@ const TriangleBackground = () => {
     // Initialize triangles
     const initTriangles = () => {
       // Increase triangle count for more mini triangles
-      const trianglesCount = Math.max(50, Math.floor(canvas.width * canvas.height / 15000));
+      const trianglesCount = Math.max(100, Math.floor(canvas.width * canvas.height / 10000));
       trianglesRef.current = [];
 
       for (let i = 0; i < trianglesCount; i++) {
@@ -42,9 +44,9 @@ const TriangleBackground = () => {
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
           // Make triangles smaller
-          size: Math.random() * 20 + 5,
+          size: Math.random() * 15 + 3,
           angle: Math.random() * Math.PI * 2,
-          speed: 0.1 + Math.random() * 0.4,
+          speed: 0.2 + Math.random() * 0.5,
           targetX: Math.random() * canvas.width,
           targetY: Math.random() * canvas.height
         });
@@ -66,10 +68,15 @@ const TriangleBackground = () => {
       ctx.closePath();
       
       const distanceToMouse = Math.hypot(x - mousePositionRef.current.x, y - mousePositionRef.current.y);
-      // Changed to white triangles with varying opacity
-      const alpha = Math.min(1, Math.max(0.1, distanceToMouse / 300));
+      // Lantern effect: triangles are visible near mouse, fade out further away
+      const visibilityRadius = 300;
+      const alpha = theme === 'dark' 
+        ? Math.min(1, Math.max(0.05, 1 - (distanceToMouse / visibilityRadius))) 
+        : Math.min(0.7, Math.max(0.05, distanceToMouse / 300));
       
-      ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+      // White triangles for dark mode, dark triangles for light mode
+      const color = theme === 'dark' ? 'rgba(255, 255, 255, ' : 'rgba(20, 20, 20, ';
+      ctx.fillStyle = `${color}${alpha})`;
       ctx.fill();
       
       ctx.restore();
@@ -88,10 +95,12 @@ const TriangleBackground = () => {
         const dy = mousePositionRef.current.y - triangle.y;
         const distance = Math.sqrt(dx * dx + dy * dy);
         
-        // Increase repulsion radius and force for more pronounced movement
-        if (distance < 250) {
+        // Enhanced fleeing effect
+        if (distance < 300) {
           const angle = Math.atan2(dy, dx);
-          const force = (250 - distance) / 8;
+          const force = (300 - distance) / 5;
+          
+          // Triangles flee from the mouse (reverse direction)
           triangle.x -= Math.cos(angle) * force * triangle.speed;
           triangle.y -= Math.sin(angle) * force * triangle.speed;
           
@@ -116,8 +125,8 @@ const TriangleBackground = () => {
           const dist = Math.sqrt(tx * tx + ty * ty);
           
           if (dist > 1) {
-            triangle.x += (tx / dist) * triangle.speed;
-            triangle.y += (ty / dist) * triangle.speed;
+            triangle.x += (tx / dist) * triangle.speed * 0.5;
+            triangle.y += (ty / dist) * triangle.speed * 0.5;
           }
         }
         
@@ -154,7 +163,7 @@ const TriangleBackground = () => {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [theme]);
 
   return (
     <canvas 
