@@ -32,9 +32,10 @@ const FeaturedTriangle = () => {
     text.style.opacity = '0';
     svg.style.opacity = '1';
     
-    // Trigger reflow
-    void triangle.offsetWidth;
-    void text.offsetWidth;
+    // Force a reflow by accessing a property that causes layout calculation
+    // This is a way to reset animations without using offsetWidth (which doesn't exist on SVG elements)
+    void triangle.getBoundingClientRect();
+    void text.getBoundingClientRect();
     
     // Start animations
     triangle.style.animation = `drawTriangle 2s ease-out forwards`;
