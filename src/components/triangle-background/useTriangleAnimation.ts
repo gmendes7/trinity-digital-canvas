@@ -16,22 +16,38 @@ export const useTriangleAnimation = ({ triangleCount, theme }: UseTriangleAnimat
   const animationFrameRef = useRef<number | null>(null);
 
   useEffect(() => {
+    console.log('Triangle animation effect running');
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) {
+      console.error('Canvas element not found');
+      return;
+    }
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+    if (!ctx) {
+      console.error('Could not get 2d context from canvas');
+      return;
+    }
+
+    console.log('Canvas size:', canvas.width, 'x', canvas.height);
+    console.log('Theme:', theme);
+    console.log('Triangle count:', triangleCount);
 
     // Set canvas dimensions
     const setCanvasDimensions = () => {
+      console.log('Setting canvas dimensions to:', window.innerWidth, 'x', window.innerHeight);
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       trianglesRef.current = initializeTriangles(canvas, triangleCount, theme);
+      console.log('Initialized triangles:', trianglesRef.current.length);
     };
 
     // Animation loop
     const animate = () => {
-      if (!ctx || !canvas) return;
+      if (!ctx || !canvas) {
+        console.error('Missing ctx or canvas in animation loop');
+        return;
+      }
       
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       
@@ -91,10 +107,12 @@ export const useTriangleAnimation = ({ triangleCount, theme }: UseTriangleAnimat
     prefersReducedMotion.addEventListener('change', handleReducedMotion);
     
     // Start animation
+    console.log('Starting animation loop');
     animationFrameRef.current = requestAnimationFrame(animate);
 
     // Cleanup
     return () => {
+      console.log('Cleaning up triangle animation');
       window.removeEventListener('resize', setCanvasDimensions);
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('scroll', handleScroll);

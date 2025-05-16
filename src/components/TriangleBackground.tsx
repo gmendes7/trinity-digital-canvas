@@ -1,3 +1,3 @@
 
-import TriangleBackground from './triangle-background';
+import TriangleBackground from './triangle-background/TriangleBackground';
 export default TriangleBackground;

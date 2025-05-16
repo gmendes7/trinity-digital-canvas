@@ -7,7 +7,7 @@ import TeamSection from '@/components/TeamSection';
 import AboutUsSection from '@/components/AboutUsSection';
 import BlogSection from '@/components/BlogSection';
 import ContactSection from '@/components/ContactSection';
-import TriangleBackground from '@/components/TriangleBackground';
+import TriangleBackground from '@/components/triangle-background';
 import ConsultingSection from '@/components/ConsultingSection';
 import SchedulingSection from '@/components/SchedulingSection';
 import FeaturedTriangle from '@/components/FeaturedTriangle';
@@ -15,6 +15,10 @@ import { useTheme } from '@/context/ThemeProvider';
 
 const Index = () => {
   const { theme } = useTheme();
+  
+  useEffect(() => {
+    console.log('Index page mounted with theme:', theme);
+  }, [theme]);
 
   return (
     <div className={`min-h-screen ${theme === 'dark' ? 'bg-black text-white' : 'bg-white text-black'}`}>
